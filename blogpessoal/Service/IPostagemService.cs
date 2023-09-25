@@ -6,7 +6,7 @@ namespace blogpessoal.Service
     {
         Task<IEnumerable<Postagem>> GetAll();
 
-        Task<Postagem?> GetId(long id);
+        Task<Postagem?> GetById(long id);
 
         Task<IEnumerable<Postagem>> GetByTitulo(string titulo);
 
