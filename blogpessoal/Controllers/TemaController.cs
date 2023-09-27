@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace blogpessoal.Controllers
 {
-
-    [Route("~/tema")]
+    [Route("~/temas")]
     [ApiController]
     public class TemaController : ControllerBase
     {
@@ -14,12 +13,14 @@ namespace blogpessoal.Controllers
         private readonly ITemaService _temaService;
         private readonly IValidator<Tema> _temaValidator;
 
-        public TemaController(ITemaService temaService, IValidator<Tema> temaValidator)
+        public TemaController(
+            ITemaService temaService,
+            IValidator<Tema> temaValidator
+            )
         {
             _temaService = temaService;
             _temaValidator = temaValidator;
         }
-
 
         [HttpGet]
         public async Task<ActionResult> GetAll()
@@ -38,49 +39,46 @@ namespace blogpessoal.Controllers
             return Ok(Resposta);
         }
 
-
         [HttpGet("descricao/{descricao}")]
         public async Task<ActionResult> GetByDescricao(string descricao)
         {
-            var Descricao = await _temaService.GetByDescricao(descricao);
-
-            if (Descricao is null)
-                return NotFound();
-
-            return Ok(Descricao);
-
+            return Ok(await _temaService.GetByDescricao(descricao));
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] Tema tema)
         {
+
             var validarTema = await _temaValidator.ValidateAsync(tema);
 
             if (!validarTema.IsValid)
+            {
                 return StatusCode(StatusCodes.Status400BadRequest, validarTema);
+            }
 
             await _temaService.Create(tema);
 
             return CreatedAtAction(nameof(GetById), new { id = tema.Id }, tema);
-        }
 
+        }
 
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] Tema tema)
         {
             if (tema.Id == 0)
-                return BadRequest("Id do Tema é inválido");
+                return BadRequest("Id da Tema é inválido!");
 
             var validarTema = await _temaValidator.ValidateAsync(tema);
 
             if (!validarTema.IsValid)
+            {
                 return StatusCode(StatusCodes.Status400BadRequest, validarTema);
+            }
 
             var Resposta = await _temaService.Update(tema);
 
             if (Resposta is null)
-                return NotFound("Tema não encontrado!");
+                return NotFound("Tema não Encontrada!");
 
             return Ok(Resposta);
 
@@ -92,12 +90,12 @@ namespace blogpessoal.Controllers
             var BuscaTema = await _temaService.GetById(id);
 
             if (BuscaTema is null)
-                return NotFound("Tema não foi encontrado!");
+                return NotFound("Tema não foi encontrada!");
 
             await _temaService.Delete(BuscaTema);
 
             return NoContent();
+
         }
     }
 }
-

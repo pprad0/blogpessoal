@@ -7,17 +7,31 @@ namespace blogpessoal.Service.Implements
     public class TemaService : ITemaService
     {
 
+        private readonly AppDbContext _context;
+
+        public TemaService(AppDbContext context)
+        {
+            _context = context;
+        }
+
         public async Task<IEnumerable<Tema>> GetAll()
         {
-            return await _context.Temas.ToListAsync();
+            return await _context.Temas
+                .Include(t => t.Postagem)
+                .ToListAsync();
         }
 
         public async Task<Tema?> GetById(long id)
         {
             try
             {
-                var Tema = await _context.Temas.FirstOrDefaultAsync(i => i.Id == id);
+
+                var Tema = await _context.Temas
+                    .Include(t => t.Postagem)
+                    .FirstAsync(i => i.Id == id);
+
                 return Tema;
+
             }
             catch
             {
@@ -29,17 +43,11 @@ namespace blogpessoal.Service.Implements
         public async Task<IEnumerable<Tema>> GetByDescricao(string descricao)
         {
             var Tema = await _context.Temas
-                            .Where(p => p.Descricao.Contains(descricao))
+                            .Include(t => t.Postagem)
+                            .Where(t => t.Descricao.Contains(descricao))
                             .ToListAsync();
 
             return Tema;
-        }
-
-        private readonly AppDbContext _context;
-
-        public TemaService(AppDbContext context)
-        {
-            _context = context;
         }
 
         public async Task<Tema?> Create(Tema tema)
@@ -62,17 +70,15 @@ namespace blogpessoal.Service.Implements
             await _context.SaveChangesAsync();
 
             return tema;
+
         }
 
         public async Task Delete(Tema tema)
         {
             _context.Remove(tema);
             await _context.SaveChangesAsync();
+
         }
+
     }
 }
-
-
-
-
-

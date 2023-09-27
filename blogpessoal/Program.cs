@@ -15,21 +15,24 @@ namespace blogpessoal
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
 
-            //Conexão com o banco de dados
+            // Conexão com o Banco de dados
 
             var connectionString = builder.Configuration
                 .GetConnectionString("DefaultConnection");
 
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString)
+            );
 
-            //Registrar a Validação das Entidades
-
+            // Registrar a Validação das Entidades
             builder.Services.AddTransient<IValidator<Postagem>, PostagemValidator>();
             builder.Services.AddTransient<IValidator<Tema>, TemaValidator>();
 
@@ -41,22 +44,22 @@ namespace blogpessoal
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            //Configuração do CORS
+            // Configuração do CORS
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: "MyPolicy",
                     policy =>
                     {
                         policy.AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
+                                .AllowAnyMethod()
+                                .AllowAnyHeader();
                     });
             });
 
-
             var app = builder.Build();
 
-            //Criar banco de dados e as tabelas
+            // Criar o Banco de dados e as Tabelas
+
             using (var scope = app.Services.CreateAsyncScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -69,6 +72,9 @@ namespace blogpessoal
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            // Inicializa o CORS
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 

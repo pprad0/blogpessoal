@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace blogpessoal.Controllers
 {
-
     [Route("~/postagens")]
     [ApiController]
     public class PostagemController : ControllerBase
@@ -15,12 +14,14 @@ namespace blogpessoal.Controllers
         private readonly IPostagemService _postagemService;
         private readonly IValidator<Postagem> _postagemValidator;
 
-        public PostagemController(IPostagemService postagemService, IValidator<Postagem> postagemValidator)
+        public PostagemController(
+            IPostagemService postagemService,
+            IValidator<Postagem> postagemValidator
+            )
         {
             _postagemService = postagemService;
             _postagemValidator = postagemValidator;
         }
-
 
         [HttpGet]
         public async Task<ActionResult> GetAll()
@@ -39,49 +40,49 @@ namespace blogpessoal.Controllers
             return Ok(Resposta);
         }
 
-
         [HttpGet("titulo/{titulo}")]
         public async Task<ActionResult> GetByTitulo(string titulo)
         {
-            var Titulo = await _postagemService.GetByTitulo(titulo);
-
-            if (Titulo is null)
-                return NotFound();
-
-            return Ok(Titulo);
-
+            return Ok(await _postagemService.GetByTitulo(titulo));
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] Postagem postagem)
         {
+
             var validarPostagem = await _postagemValidator.ValidateAsync(postagem);
 
             if (!validarPostagem.IsValid)
+            {
                 return StatusCode(StatusCodes.Status400BadRequest, validarPostagem);
+            }
 
-            await _postagemService.Create(postagem);
+            var Resposta = await _postagemService.Create(postagem);
+
+            if (Resposta is null)
+                return BadRequest("Tema não encontrado!");
 
             return CreatedAtAction(nameof(GetById), new { id = postagem.Id }, postagem);
-        }
 
+        }
 
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] Postagem postagem)
         {
             if (postagem.Id == 0)
-                return BadRequest("Id da Postagem é inválido");
+                return BadRequest("Id da Postagem é inválido!");
 
             var validarPostagem = await _postagemValidator.ValidateAsync(postagem);
 
             if (!validarPostagem.IsValid)
+            {
                 return StatusCode(StatusCodes.Status400BadRequest, validarPostagem);
+            }
 
             var Resposta = await _postagemService.Update(postagem);
 
             if (Resposta is null)
-                return NotFound("Postagem não encontrada!");
+                return NotFound("Postagem e/ou Tema não Encontrados!");
 
             return Ok(Resposta);
 
@@ -98,6 +99,7 @@ namespace blogpessoal.Controllers
             await _postagemService.Delete(BuscaPostagem);
 
             return NoContent();
+
         }
     }
 }

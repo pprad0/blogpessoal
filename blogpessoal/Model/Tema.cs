@@ -5,13 +5,17 @@ namespace blogpessoal.Model
 {
     public class Tema
     {
-        [Key] //PK (ID)
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // IDENTITY (1,1)
+        [Key] // Primary Key (Id)
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // IDENTITY(1,1)
         public long Id { get; set; }
 
         [Column(TypeName = "varchar")]
-        [StringLength(1000)]
+        [StringLength(255)]
         public string Descricao { get; set; } = string.Empty;
 
+        [InverseProperty("Tema")]
+        public virtual ICollection<Postagem>? Postagem { get; set; }
     }
 }
+
+

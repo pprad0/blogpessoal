@@ -2,7 +2,6 @@
 
 namespace blogpessoal.Service
 {
-
     public interface ITemaService
     {
         Task<IEnumerable<Tema>> GetAll();
@@ -16,6 +15,5 @@ namespace blogpessoal.Service
         Task<Tema?> Update(Tema tema);
 
         Task Delete(Tema tema);
-
     }
 }
