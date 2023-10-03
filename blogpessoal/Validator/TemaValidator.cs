@@ -7,10 +7,10 @@ namespace blogpessoal.Validator
     {
         public TemaValidator()
         {
-            RuleFor(p => p.Descricao)
+
+            RuleFor(t => t.Descricao)
                 .NotEmpty()
-                .MinimumLength(10)
-                .MaximumLength(1000);
+                .MaximumLength(255);
         }
     }
 }

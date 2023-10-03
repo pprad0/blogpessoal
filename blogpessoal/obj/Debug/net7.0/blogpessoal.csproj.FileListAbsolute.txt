@@ -226,3 +226,5 @@ C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blog
 C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\obj\Debug\net7.0\blogpessoal.pdb
 C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\obj\Debug\net7.0\blogpessoal.genruntimeconfig.cache
 C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\obj\Debug\net7.0\ref\blogpessoal.dll
+C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\bin\Debug\net7.0\BCrypt.Net-Core.dll
+C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

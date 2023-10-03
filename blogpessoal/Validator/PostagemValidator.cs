@@ -7,6 +7,7 @@ namespace blogpessoal.Validator
     {
         public PostagemValidator()
         {
+
             RuleFor(p => p.Titulo)
                 .NotEmpty()
                 .MinimumLength(5)
