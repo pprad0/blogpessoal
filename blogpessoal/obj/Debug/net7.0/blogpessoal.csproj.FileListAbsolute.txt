@@ -233,3 +233,5 @@ C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blog
 C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\bin\Debug\net7.0\Scrutor.dll
 C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.dll
 C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
+C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\bin\Debug\net7.0\Npgsql.dll
+C:\Users\user\Desktop\Aulas_Generation\Projetos Bloco 02\aspnet\blogpessoal\blogpessoal\bin\Debug\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
